@@ -1,10 +1,23 @@
 (ns awesome-project.core
-  (:require [reagent.core :as r]
-            [reagent.react-native :as rn]))
+  (:require
+   [shadow.react-native :refer (render-root)]
+   ["react" :as r]
+   ["react-native" :as rn]))
 
 (defn hello []
-  [rn/view {:style {:flex 1 :align-items "center" :justify-content "center"}}
-   [rn/text {:style {:font-size 50}} "Hello Krell!"]])
+  (r/createElement rn/Text (clj->js {:style {:fontSize 50}}) "Hellooo"))
 
+
+;; krell
 (defn ^:export -main [& args]
-  (r/as-element [hello]))
+  (hello))
+
+
+;; shadow-cljs 
+(defn start
+  {:dev/after-load true}
+  []
+  (render-root "AwesomeProject" (hello)))
+
+(defn init []
+  (start))
