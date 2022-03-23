@@ -1,9 +1,12 @@
 ;; shadow-cljs configuration
-{:source-paths
- ["src"]
+{:deps true
 
  :builds
- {:app
-  {:target :react-native
-   :init-fn awesome-project.core/init
-   :output-dir "app"}}}
+ {:android {:target :react-native
+            :init-fn awesome-project.core/init
+            :compiler-options {:reader-features #{:android}}
+            :output-dir "compiled-android-js"}
+  :ios {:target :react-native
+        :init-fn awesome-project.core/init
+        :compiler-options {:reader-features #{:ios}}
+        :output-dir "compiled-ios-js"}}}

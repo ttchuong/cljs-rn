@@ -1,23 +1,31 @@
 (ns awesome-project.core
   (:require
-   [shadow.react-native :refer (render-root)]
+   ["../hello" :as hello]
    ["react" :as r]
-   ["react-native" :as rn]))
+   ["react-native" :as rn]
+   ["react-native-date-picker$default" :as dp]
+   [awesome-project.platform :as p]
+   [shadow.react-native :refer (render-root)]))
 
 (defn hello []
-  (r/createElement rn/Text (clj->js {:style {:fontSize 50}}) "Hellooo"))
+  (r/useEffect (fn []
+                 (js/console.log "OK")
+                 (constantly nil))
+               #js [])
+  (r/createElement
+   rn/View
+   nil
+   (r/createElement rn/Text nil "Helloo")
+   (r/createElement dp (clj->js {:date (js/Date.)
+                                 :onDateChange (fn [new-date]
+                                                 (js/alert new-date))}))
+   (r/createElement rn/Image (clj->js {:source (js/require "../assets/shadow-cljs.png")}))))
 
-
-;; krell
-(defn ^:export -main [& args]
-  (hello))
-
-
-;; shadow-cljs 
 (defn start
   {:dev/after-load true}
   []
-  (render-root "AwesomeProject" (hello)))
+  (p/print-platform)
+  (render-root "AwesomeProject" (r/createElement hello)))
 
 (defn init []
   (start))

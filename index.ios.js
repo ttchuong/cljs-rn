@@ -1,0 +1,1 @@
+import './compiled-ios-js/index.js';
